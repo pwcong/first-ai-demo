@@ -14,7 +14,7 @@ alwaysApply: true
 - When user explicitly requests to close the issue
 
 ## Requirements
-- Create new branch from develop when starting issue
+- Create new branch from current branch when starting issue
 - Commit all current changes with meaningful message
 - Summarize issue context and solution
 - Update issue with implementation details
@@ -44,7 +44,7 @@ AI Actions:
    Related to #123"
    ```
 3. Update issue #123 with implementation summary
-4. Create MR: develop -> main with issue reference
+4. Create MR: current branch -> main with issue reference
 
 User: "close issue 123"
 AI Actions:
@@ -64,7 +64,7 @@ AI Actions:
 </example>
 
 ## Critical Rules
-  - ALWAYS create branch from develop
+  - ALWAYS create branch from current branch
   - ALWAYS include issue number in branch name
   - ALWAYS write descriptive commit messages
   - ALWAYS update issue with implementation details
