@@ -1,183 +1,124 @@
 ---
-description: AUTOMATE issue completion workflow when user says 'issue done' to create MR and update issue
+description: AUTOMATE issue workflow with strict documentation-first approach when handling issue lifecycle
 globs: **/*
 alwaysApply: true
 ---
 
-# Issue Completion Workflow
+# Issue Workflow
 
 ## Context
-- When user starts working on an issue ("issue start #xxx")
-- When user indicates an issue is completed ("issue done #xxx")
-- When changes need to be merged from feature branch to main
-- When issue context needs to be documented
-- When user explicitly requests to close the issue ("close issue #xxx")
+- When starting work on an issue ("issue start #xxx")
+- When completing an issue ("issue done #xxx")
+- When closing an issue ("close issue #xxx")
+- When documentation needs to be maintained
 
 ## Requirements
-- Create new branch from current branch when starting issue
-- Update issue status to "In Progress" when starting
-- Summarize conversation context and implementation details
-- Create temporary markdown file for formatted documentation
-- Upload formatted documentation from temporary file to issue
-- Document all key decisions and code changes in issue
-- Create new branch from current branch for completion
-- Commit all current changes with meaningful message
-- Create merge request targeting main branch
-- Link merge request with related issue
-- Wait for explicit user approval before closing issue
-- Clean up temporary files after successful upload
+- Follow strict order for issue lifecycle actions
+- Create and maintain documentation before code changes
+- Use standardized templates for consistency
+- Enforce documentation-first approach
+
+## Command Actions
+### "issue start #xxx"
+1. Create feature branch
+2. Update issue status
+3. Add implementation plan
+
+### "issue done #xxx" (STRICT ORDER)
+1. Create implementation summary FIRST
+2. Update issue documentation BEFORE other actions
+3. ONLY THEN:
+   - Commit final changes
+   - Push changes
+   - Create merge request
+   - Link merge request with issue
+
+### "issue close #xxx"
+1. Verify documentation completeness
+2. Update issue status
+3. Add closing summary
+
+## Implementation Template
+```markdown
+# Implementation Summary for #XXX 🚀
+
+## 📝 Overview
+[Brief description of the implemented feature/fix]
+
+## 🛠 Implementation Details
+### Components/Features Added
+- List of main components
+- Key features implemented
+
+### Core Features
+- ✨ Feature 1
+- 💾 Feature 2
+- 🧪 Feature 3
+
+## 🤔 Key Decisions
+1. **Architecture Choice**
+   - Chosen approach
+   - Rationale
+
+2. **Technical Decisions**
+   - Technical choices
+   - Trade-offs considered
+
+## 🔧 Technical Implementation
+### Technologies Used
+- List of technologies
+- Key libraries/frameworks
+
+### Architecture/Flow
+1. Component interactions
+2. Data flow
+3. Key processes
+
+## 📈 Future Improvements
+- [ ] Potential enhancement 1
+- [ ] Potential enhancement 2
+
+## 🎯 Completion Status
+- ✅ Feature 1
+- ✅ Feature 2
+- ✅ Documentation
+```
 
 ## Examples
 <example>
-User: "issue start #123"
-AI Actions:
-1. Create and switch to new branch: "feature/issue-123-add-todo-component"
-2. Update issue status to "In Progress"
-
 User: "issue done #123"
-AI Actions:
-1. Create temporary markdown file:
-   ```bash
-   cat > .temp_issue_123_summary.md << 'EOL'
+AI:
+1. Creates implementation summary FIRST:
+   ```markdown
    # Implementation Summary for #123 🚀
-   
    ## 📝 Overview
-   Todo component implementation with React hooks and local storage integration.
-   
+   Added user authentication system
    ## 🛠 Implementation Details
-   ### Components Added
-   - `TodoComponent.tsx`: Main todo management interface
-   - `TodoItem.tsx`: Individual todo item component
-   - `TodoForm.tsx`: Form for creating/editing todos
-   
-   ### Core Features
-   - ✨ CRUD operations for todo items
-   - 💾 Local storage persistence
-   - 🧪 Comprehensive test coverage
-   
+   - Implemented JWT-based auth
+   - Added login/register UI
    ## 🤔 Key Decisions
-   1. **Architecture Choice**
-      - Used functional components with hooks for better code organization
-      - Implemented React Context for state management
-   
-   2. **UX Improvements**
-      - Added optimistic updates for instant feedback
-      - Implemented error boundaries for graceful error handling
-      - Added loading states and animations
-   
-   ## 🔧 Technical Implementation
-   ### Technologies Used
-   - React Hooks
-     - useState for local state
-     - useEffect for side effects
-     - useCallback for performance
-   
-   ### Data Flow
-   1. User interaction → Component state
-   2. State change → Local storage update
-   3. Storage sync → UI refresh
-   
-   ### Testing Strategy
-   - Unit tests with Jest
-   - Integration tests with React Testing Library
-   - E2E tests for critical paths
-   
-   ## 📈 Performance Considerations
-   - Implemented memo for expensive calculations
-   - Optimized re-renders with useMemo
-   - Lazy loading for large components
-   
-   ## 🎯 Future Improvements
-   - [ ] Add batch operations
-   - [ ] Implement undo/redo
-   - [ ] Add keyboard shortcuts
-   EOL
+   - Used JWT for stateless auth
+   - Implemented refresh token rotation
    ```
-
-2. Upload formatted content to issue:
-   ```bash
-   gh issue comment 123 "$(cat .temp_issue_123_summary.md)"
-   rm .temp_issue_123_summary.md
-   ```
-
-3. Create branch: "feature/issue-123-add-todo-component"
-4. Commit changes:
-   ```
-   git add .
-   git commit -m "feat: implement todo component
-   
-   - Add Todo.tsx component with CRUD operations
-   - Implement local storage persistence
-   - Add comprehensive unit tests
-   
-   Related to #123"
-   ```
-5. Create MR: current branch -> main with issue reference
-
-User: "close issue #123"
-AI Actions:
-1. Create temporary markdown file:
-   ```bash
-   cat > .temp_issue_123_closing.md << 'EOL'
-   # 🎉 Issue Completion Summary
-   
-   ## ✅ Completed Features
-   All planned features have been successfully implemented and tested.
-   
-   ## 🔍 Final Review
-   - All tests passing
-   - Code review comments addressed
-   - Documentation updated
-   - Performance metrics met
-   
-   ## 📦 Deliverables
-   - [x] Todo component implementation
-   - [x] Local storage integration
-   - [x] Test coverage > 90%
-   - [x] User documentation
-   EOL
-   ```
-
-2. Upload closing summary and update status:
-   ```bash
-   gh issue comment 123 "$(cat .temp_issue_123_closing.md)"
-   gh issue close 123
-   rm .temp_issue_123_closing.md
-   ```
+2. Updates issue with the summary
+3. ONLY THEN proceeds with code changes and MR
 </example>
 
 <example type="invalid">
-❌ Creating branch without issue reference
-❌ Committing without meaningful message
-❌ Creating MR without linking issue
-❌ Not documenting implementation details
-❌ Automatically closing issue without user approval
-❌ Using "Closes #123" in commit message without user approval
-❌ Not creating new branch when starting issue
-❌ Not updating issue status when starting work
-❌ Not summarizing conversation context in issue
-❌ Missing key decisions and technical details
-❌ Using plain text without proper formatting
-❌ Omitting emojis and visual hierarchy
-❌ Directly uploading formatted text without temporary file
-❌ Not cleaning up temporary files after upload
+❌ User: "issue done #123"
+AI: Creates merge request before documentation
+
+❌ User: "issue done #123"
+AI: Pushes code changes without implementation summary
+
+❌ User: "issue done #123"
+AI: Closes issue without proper documentation
 </example>
 
 ## Critical Rules
-  - ALWAYS create branch from current branch
-  - ALWAYS include issue number in branch name
-  - ALWAYS write descriptive commit messages
-  - ALWAYS update issue with implementation details
-  - ALWAYS link MR with related issue
-  - NEVER push sensitive information
-  - NEVER merge directly without review
-  - NEVER automatically close issues
-  - ONLY close issues when explicitly requested by user
-  - ALWAYS create new branch when starting issue work
-  - ALWAYS update issue status when starting work
-  - MUST summarize conversation context in issue
-  - MUST document all key decisions and changes
-  - MUST use proper markdown formatting with emojis
-  - MUST maintain clear visual hierarchy in documentation
-  - MUST use temporary files for formatted text upload
-  - MUST clean up temporary files after successful upload 
+  - MUST create documentation BEFORE any code changes
+  - MUST follow strict action order (docs -> code -> MR)
+  - NEVER skip documentation steps
+  - ALWAYS use provided templates
+  - VERIFY documentation completeness before closing
+  - MAINTAIN clear structure and use emojis for readability 
