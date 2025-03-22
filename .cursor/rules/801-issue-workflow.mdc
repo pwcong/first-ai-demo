@@ -1,0 +1,56 @@
+---
+description: AUTOMATE issue completion workflow when user says 'issue done' to create MR and update issue
+globs: **/*
+alwaysApply: true
+---
+
+# Issue Completion Workflow
+
+## Context
+- When user indicates an issue is completed ("issue done")
+- When changes need to be merged from feature branch to main
+- When issue context needs to be documented
+
+## Requirements
+- Create new branch from develop branch
+- Commit all current changes with meaningful message
+- Summarize issue context and solution
+- Update issue with implementation details
+- Create merge request targeting main branch
+- Link merge request with related issue
+
+## Examples
+<example>
+User: "issue done"
+AI Actions:
+1. Create branch: "feature/issue-123-add-todo-component"
+2. Commit changes:
+   ```
+   git add .
+   git commit -m "feat: implement todo component
+   
+   - Add Todo.tsx component
+   - Implement CRUD operations
+   - Add unit tests
+   
+   Closes #123"
+   ```
+3. Update issue #123 with implementation summary
+4. Create MR: develop -> main with issue reference
+</example>
+
+<example type="invalid">
+❌ Creating branch without issue reference
+❌ Committing without meaningful message
+❌ Creating MR without linking issue
+❌ Not documenting implementation details
+</example>
+
+## Critical Rules
+  - ALWAYS create branch from develop
+  - ALWAYS include issue number in branch name
+  - ALWAYS write descriptive commit messages
+  - ALWAYS update issue with implementation details
+  - ALWAYS link MR with related issue
+  - NEVER push sensitive information
+  - NEVER merge directly without review 
