@@ -34,21 +34,59 @@ AI Actions:
 User: "issue done #123"
 AI Actions:
 1. Summarize conversation context:
-   ```
-   ## Implementation Summary
-   - Added Todo component with React hooks
-   - Implemented CRUD operations with local storage
-   - Added unit tests for core functionality
+   ```markdown
+   # Implementation Summary for #123 🚀
    
-   ## Key Decisions
-   - Used functional components over class components
-   - Implemented optimistic updates for better UX
-   - Added error boundary for error handling
+   ## 📝 Overview
+   Todo component implementation with React hooks and local storage integration.
    
-   ## Technical Details
-   - React hooks: useState, useEffect, useCallback
-   - LocalStorage for data persistence
-   - Jest and React Testing Library for tests
+   ## 🛠 Implementation Details
+   ### Components Added
+   - `TodoComponent.tsx`: Main todo management interface
+   - `TodoItem.tsx`: Individual todo item component
+   - `TodoForm.tsx`: Form for creating/editing todos
+   
+   ### Core Features
+   - ✨ CRUD operations for todo items
+   - 💾 Local storage persistence
+   - 🧪 Comprehensive test coverage
+   
+   ## 🤔 Key Decisions
+   1. **Architecture Choice**
+      - Used functional components with hooks for better code organization
+      - Implemented React Context for state management
+   
+   2. **UX Improvements**
+      - Added optimistic updates for instant feedback
+      - Implemented error boundaries for graceful error handling
+      - Added loading states and animations
+   
+   ## 🔧 Technical Implementation
+   ### Technologies Used
+   - React Hooks
+     - useState for local state
+     - useEffect for side effects
+     - useCallback for performance
+   
+   ### Data Flow
+   1. User interaction → Component state
+   2. State change → Local storage update
+   3. Storage sync → UI refresh
+   
+   ### Testing Strategy
+   - Unit tests with Jest
+   - Integration tests with React Testing Library
+   - E2E tests for critical paths
+   
+   ## 📈 Performance Considerations
+   - Implemented memo for expensive calculations
+   - Optimized re-renders with useMemo
+   - Lazy loading for large components
+   
+   ## 🎯 Future Improvements
+   - [ ] Add batch operations
+   - [ ] Implement undo/redo
+   - [ ] Add keyboard shortcuts
    ```
 2. Update issue #123 with implementation summary
 3. Create branch: "feature/issue-123-add-todo-component"
@@ -68,7 +106,25 @@ AI Actions:
 User: "close issue #123"
 AI Actions:
 1. Update issue status to closed
-2. Add closing comment with final implementation summary
+2. Add closing comment with final implementation summary:
+   ```markdown
+   # 🎉 Issue Completion Summary
+   
+   ## ✅ Completed Features
+   All planned features have been successfully implemented and tested.
+   
+   ## 🔍 Final Review
+   - All tests passing
+   - Code review comments addressed
+   - Documentation updated
+   - Performance metrics met
+   
+   ## 📦 Deliverables
+   - [x] Todo component implementation
+   - [x] Local storage integration
+   - [x] Test coverage > 90%
+   - [x] User documentation
+   ```
 </example>
 
 <example type="invalid">
@@ -82,6 +138,8 @@ AI Actions:
 ❌ Not updating issue status when starting work
 ❌ Not summarizing conversation context in issue
 ❌ Missing key decisions and technical details
+❌ Using plain text without proper formatting
+❌ Omitting emojis and visual hierarchy
 </example>
 
 ## Critical Rules
@@ -97,4 +155,6 @@ AI Actions:
   - ALWAYS create new branch when starting issue work
   - ALWAYS update issue status when starting work
   - MUST summarize conversation context in issue
-  - MUST document all key decisions and changes 
+  - MUST document all key decisions and changes
+  - MUST use proper markdown formatting with emojis
+  - MUST maintain clear visual hierarchy in documentation 
