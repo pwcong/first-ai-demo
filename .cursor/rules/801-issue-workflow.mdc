@@ -10,6 +10,7 @@ alwaysApply: true
 - When user indicates an issue is completed ("issue done")
 - When changes need to be merged from feature branch to main
 - When issue context needs to be documented
+- When user explicitly requests to close the issue
 
 ## Requirements
 - Create new branch from develop branch
@@ -18,6 +19,7 @@ alwaysApply: true
 - Update issue with implementation details
 - Create merge request targeting main branch
 - Link merge request with related issue
+- Wait for explicit user approval before closing issue
 
 ## Examples
 <example>
@@ -33,10 +35,15 @@ AI Actions:
    - Implement CRUD operations
    - Add unit tests
    
-   Closes #123"
+   Related to #123"
    ```
 3. Update issue #123 with implementation summary
 4. Create MR: develop -> main with issue reference
+
+User: "close issue 123"
+AI Actions:
+1. Update issue status to closed
+2. Add closing comment with implementation summary
 </example>
 
 <example type="invalid">
@@ -44,6 +51,8 @@ AI Actions:
 ❌ Committing without meaningful message
 ❌ Creating MR without linking issue
 ❌ Not documenting implementation details
+❌ Automatically closing issue without user approval
+❌ Using "Closes #123" in commit message without user approval
 </example>
 
 ## Critical Rules
@@ -53,4 +62,6 @@ AI Actions:
   - ALWAYS update issue with implementation details
   - ALWAYS link MR with related issue
   - NEVER push sensitive information
-  - NEVER merge directly without review 
+  - NEVER merge directly without review
+  - NEVER automatically close issues
+  - ONLY close issues when explicitly requested by user 

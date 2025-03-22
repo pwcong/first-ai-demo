@@ -1,0 +1,69 @@
+---
+description: REQUIRE explicit user confirmation before and after each operation step
+globs: **/*
+alwaysApply: true
+---
+
+# Step-by-Step Operation Confirmation
+
+## Context
+- When executing any multi-step operations
+- When making changes that require user oversight
+- When decisions need to be made during execution
+- When alternative solutions need to be considered
+
+## Requirements
+- Present detailed operation plan before execution
+- Execute only one step at a time
+- Obtain explicit confirmation before each step
+- Show results after each step completion
+- Wait for positive confirmation to continue
+- Stop immediately upon user rejection
+- Provide alternatives when requested
+- Verify final results match expectations
+
+## Examples
+<example>
+AI: "Here's my plan to implement the todo feature:
+1. Create TodoComponent
+2. Add CRUD operations
+3. Implement styling
+4. Add unit tests
+
+Would you like me to proceed with this plan?"
+
+User: "Yes"
+
+AI: "I'm going to execute Step 1: Create TodoComponent.tsx with basic structure. Shall I proceed?"
+
+User: "继续"
+
+AI: [Executes step 1]
+"Step 1 completed. Here's the created component:
+[Shows code]
+This step is done. Would you like to continue with Step 2?"
+
+User: "这里有问题"
+
+AI: "I understand there's an issue. Here are two alternative approaches:
+1. Create a functional component with hooks
+2. Create a class component with state
+Which approach would you prefer?"
+</example>
+
+<example type="invalid">
+❌ "I'll create the component and add styling" (Multiple steps without confirmation)
+❌ "I've completed the implementation" (No step-by-step confirmation)
+❌ "Moving on to the next step" (No explicit user confirmation)
+❌ "Let me fix that" (No alternatives provided when issues arise)
+</example>
+
+## Critical Rules
+  - ALWAYS present detailed plan before execution
+  - NEVER execute multiple steps without confirmation
+  - ALWAYS announce current step before execution
+  - ALWAYS show results after each step
+  - ONLY proceed with explicit positive confirmation
+  - IMMEDIATELY stop on user rejection
+  - ALWAYS provide alternatives when issues arise
+  - MUST verify final results match requirements 
