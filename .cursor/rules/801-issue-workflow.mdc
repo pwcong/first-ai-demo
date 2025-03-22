@@ -8,7 +8,7 @@ alwaysApply: true
 
 ## Context
 - When user starts working on an issue ("issue start #xxx")
-- When user indicates an issue is completed ("issue done")
+- When user indicates an issue is completed ("issue done #xxx")
 - When changes need to be merged from feature branch to main
 - When issue context needs to be documented
 - When user explicitly requests to close the issue
@@ -29,10 +29,9 @@ AI Actions:
 1. Create and switch to new branch: "feature/issue-123-add-todo-component"
 2. Update issue status to "In Progress"
 
-User: "issue done"
+User: "issue done #123"
 AI Actions:
-1. Create branch: "feature/issue-123-add-todo-component"
-2. Commit changes:
+1. Commit changes:
    ```
    git add .
    git commit -m "feat: implement todo component
@@ -43,8 +42,8 @@ AI Actions:
    
    Related to #123"
    ```
-3. Update issue #123 with implementation summary
-4. Create MR: current branch -> main with issue reference
+2. Update issue #123 with implementation summary
+3. Create MR: current branch -> main with issue reference
 
 User: "close issue 123"
 AI Actions:
