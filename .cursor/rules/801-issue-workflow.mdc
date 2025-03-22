@@ -11,13 +11,15 @@ alwaysApply: true
 - When user indicates an issue is completed ("issue done #xxx")
 - When changes need to be merged from feature branch to main
 - When issue context needs to be documented
-- When user explicitly requests to close the issue
+- When user explicitly requests to close the issue ("close issue #xxx")
 
 ## Requirements
 - Create new branch from current branch when starting issue
+- Update issue status to "In Progress" when starting
+- Summarize conversation context and implementation details
+- Document all key decisions and code changes in issue
+- Create new branch from current branch for completion
 - Commit all current changes with meaningful message
-- Summarize issue context and solution
-- Update issue with implementation details
 - Create merge request targeting main branch
 - Link merge request with related issue
 - Wait for explicit user approval before closing issue
@@ -31,24 +33,42 @@ AI Actions:
 
 User: "issue done #123"
 AI Actions:
-1. Commit changes:
+1. Summarize conversation context:
+   ```
+   ## Implementation Summary
+   - Added Todo component with React hooks
+   - Implemented CRUD operations with local storage
+   - Added unit tests for core functionality
+   
+   ## Key Decisions
+   - Used functional components over class components
+   - Implemented optimistic updates for better UX
+   - Added error boundary for error handling
+   
+   ## Technical Details
+   - React hooks: useState, useEffect, useCallback
+   - LocalStorage for data persistence
+   - Jest and React Testing Library for tests
+   ```
+2. Update issue #123 with implementation summary
+3. Create branch: "feature/issue-123-add-todo-component"
+4. Commit changes:
    ```
    git add .
    git commit -m "feat: implement todo component
    
-   - Add Todo.tsx component
-   - Implement CRUD operations
-   - Add unit tests
+   - Add Todo.tsx component with CRUD operations
+   - Implement local storage persistence
+   - Add comprehensive unit tests
    
    Related to #123"
    ```
-2. Update issue #123 with implementation summary
-3. Create MR: current branch -> main with issue reference
+5. Create MR: current branch -> main with issue reference
 
-User: "close issue 123"
+User: "close issue #123"
 AI Actions:
 1. Update issue status to closed
-2. Add closing comment with implementation summary
+2. Add closing comment with final implementation summary
 </example>
 
 <example type="invalid">
@@ -60,6 +80,8 @@ AI Actions:
 ❌ Using "Closes #123" in commit message without user approval
 ❌ Not creating new branch when starting issue
 ❌ Not updating issue status when starting work
+❌ Not summarizing conversation context in issue
+❌ Missing key decisions and technical details
 </example>
 
 ## Critical Rules
@@ -73,4 +95,6 @@ AI Actions:
   - NEVER automatically close issues
   - ONLY close issues when explicitly requested by user
   - ALWAYS create new branch when starting issue work
-  - ALWAYS update issue status when starting work 
+  - ALWAYS update issue status when starting work
+  - MUST summarize conversation context in issue
+  - MUST document all key decisions and changes 
