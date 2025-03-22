@@ -1,0 +1,45 @@
+---
+description: SUMMARIZE conversation and STORE in knowledge graph when triggered by specific command
+globs: **/*.{ts,js,tsx,jsx}
+alwaysApply: true
+---
+
+# Conversation Memory Management
+
+## Context
+- When user requests to summarize current conversation
+- When starting a new conversation session
+- When needing to access historical context
+
+## Requirements
+- Automatically summarize conversation when user requests
+- Store conversation summaries in knowledge graph
+- Load previous conversation context on new session start
+- Maintain relationships between related conversations
+- Track key decisions and code changes
+
+## Examples
+<example>
+User: "Remember..."
+AI: Creates entities and relations in knowledge graph:
+- Entity: "Conversation_20240319_1" (type: Conversation)
+  - Observations: ["Created Todo component", "Fixed styling issues"]
+- Relations: 
+  - "Conversation_20240319_1" CONTAINS "Todo.tsx"
+  - "Conversation_20240319_1" FOLLOWS "Conversation_20240319_0"
+</example>
+
+<example type="invalid">
+❌ Storing only final code changes without context
+❌ Not linking related conversations
+❌ Ignoring user decisions and preferences
+❌ Storing raw conversation text without structured summary
+</example>
+
+## Critical Rules
+  - ALWAYS create structured entities for conversation summaries
+  - ALWAYS store key decisions and code changes as observations
+  - ALWAYS establish relationships between related conversations
+  - ALWAYS load relevant historical context at start of new sessions
+  - NEVER store sensitive information (credentials, tokens, etc.)
+  - NEVER overwrite existing conversation summaries 
