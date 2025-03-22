@@ -17,6 +17,9 @@ alwaysApply: true
 - Create and maintain documentation before code changes
 - Use standardized templates for consistency
 - Enforce documentation-first approach
+- Create temporary markdown files for formatted documentation
+- Upload formatted documentation from temporary files
+- Clean up temporary files after successful upload
 
 ## Command Actions
 ### "issue start #xxx"
@@ -25,7 +28,16 @@ alwaysApply: true
 3. Add implementation plan
 
 ### "issue done #xxx" (STRICT ORDER)
-1. Create implementation summary FIRST
+1. Create implementation summary FIRST:
+   ```bash
+   cat > .temp_issue_xxx_summary.md << 'EOL'
+   # Implementation Summary Template
+   [Paste formatted markdown content here]
+   EOL
+   
+   gh issue comment xxx "$(cat .temp_issue_xxx_summary.md)"
+   rm .temp_issue_xxx_summary.md
+   ```
 2. Update issue documentation BEFORE other actions
 3. ONLY THEN:
    - Commit final changes
@@ -34,9 +46,18 @@ alwaysApply: true
    - Link merge request with issue
 
 ### "issue close #xxx"
-1. Verify documentation completeness
-2. Update issue status
-3. Add closing summary
+1. Create closing summary:
+   ```bash
+   cat > .temp_issue_xxx_closing.md << 'EOL'
+   # Closing Summary Template
+   [Paste formatted markdown content here]
+   EOL
+   
+   gh issue comment xxx "$(cat .temp_issue_xxx_closing.md)"
+   rm .temp_issue_xxx_closing.md
+   ```
+2. Verify documentation completeness
+3. Update issue status
 
 ## Implementation Template
 ```markdown
@@ -88,8 +109,9 @@ alwaysApply: true
 <example>
 User: "issue done #123"
 AI:
-1. Creates implementation summary FIRST:
-   ```markdown
+1. Creates temporary markdown file with implementation summary:
+   ```bash
+   cat > .temp_issue_123_summary.md << 'EOL'
    # Implementation Summary for #123 🚀
    ## 📝 Overview
    Added user authentication system
@@ -99,8 +121,15 @@ AI:
    ## 🤔 Key Decisions
    - Used JWT for stateless auth
    - Implemented refresh token rotation
+   EOL
    ```
-2. Updates issue with the summary
+
+2. Uploads formatted content to issue:
+   ```bash
+   gh issue comment 123 "$(cat .temp_issue_123_summary.md)"
+   rm .temp_issue_123_summary.md
+   ```
+
 3. ONLY THEN proceeds with code changes and MR
 </example>
 
@@ -113,6 +142,12 @@ AI: Pushes code changes without implementation summary
 
 ❌ User: "issue done #123"
 AI: Closes issue without proper documentation
+
+❌ User: "issue done #123"
+AI: Directly uploads unformatted text to issue
+
+❌ User: "issue done #123"
+AI: Forgets to clean up temporary files
 </example>
 
 ## Critical Rules
@@ -121,4 +156,6 @@ AI: Closes issue without proper documentation
   - NEVER skip documentation steps
   - ALWAYS use provided templates
   - VERIFY documentation completeness before closing
-  - MAINTAIN clear structure and use emojis for readability 
+  - MAINTAIN clear structure and use emojis for readability
+  - MUST use temporary files for formatted text upload
+  - MUST clean up temporary files after successful upload
