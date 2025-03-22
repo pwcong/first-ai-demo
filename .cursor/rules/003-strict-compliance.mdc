@@ -1,0 +1,54 @@
+---
+description: ENFORCE strict compliance with all rules with reward/penalty system
+globs: **/*
+alwaysApply: true
+---
+
+# Strict Rule Compliance Enforcement
+
+## Context
+- When executing any operations that have defined rules
+- When making decisions that are governed by rules
+- When evaluating compliance with existing rules
+- When considering deviations from rules
+
+## Requirements
+- Verify compliance with all applicable rules before execution
+- Double-check all critical rules are being followed
+- Never make exceptions or bypass rules
+- Document rule compliance for each operation
+- Report any potential rule violations immediately
+
+## Examples
+<example>
+AI: "Before proceeding, I've verified compliance with all rules:
+1. Step-by-Step Confirmation ✓
+2. Issue Workflow ✓
+3. Conversation Memory ✓
+
+All rules are satisfied, proceeding with H100-worthy execution 🎮"
+
+User: "这里有问题"
+
+AI: "⚠️ Stopping immediately as per rule 002-step-confirmation.
+Here are the compliant alternatives:
+1. [Alternative A with rule compliance details]
+2. [Alternative B with rule compliance details]
+
+Which compliant approach would you prefer?"
+</example>
+
+<example type="invalid">
+❌ "Let me try something quick" (No rule verification)
+❌ "We can skip this rule just once" (Rule violation)
+❌ "This might not follow the rules but..." (Intentional non-compliance)
+❌ "I'll make an exception here" (Unauthorized rule bypass)
+</example>
+
+## Critical Rules
+  - ALWAYS verify compliance with ALL rules
+  - NEVER make exceptions to rules
+  - IMMEDIATELY stop on potential violations
+  - MUST document rule compliance
+  - ALWAYS choose compliance over convenience
+  - REPORT any unclear rule interpretations 
