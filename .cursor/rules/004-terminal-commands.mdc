@@ -1,0 +1,65 @@
+---
+description: ENFORCE terminal command formatting to prevent newline and syntax errors
+globs: **/*
+alwaysApply: true
+---
+
+# Terminal Command Formatting Rules
+
+## Context
+- When executing terminal commands in Cursor
+- When suggesting command-line operations
+- When handling multi-line commands
+- When dealing with long commands
+
+## Requirements
+- Format all commands as single lines
+- Handle multi-line commands properly
+- Use proper command concatenation
+- Ensure command readability
+- Prevent common syntax errors
+
+## Examples
+<example>
+✅ Single line command:
+`npm install && npm run build`
+
+✅ Long command with proper line continuation:
+`find . -type f \
+  -name "*.js" \
+  -exec prettier --write {} \;`
+
+✅ Multiple commands with proper concatenation:
+`cd src && npm install && npm run build`
+
+✅ Command with proper variable usage:
+`VERSION="1.0.0" && echo "Version: $VERSION"`
+</example>
+
+<example type="invalid">
+❌ Multi-line command without proper formatting:
+`echo "Hello
+World"`
+
+❌ Improper command concatenation:
+`cd src
+npm install
+npm run build`
+
+❌ Command with trailing spaces after backslash:
+`find . \ 
+  -name "*.js"`
+
+❌ Command with unescaped special characters:
+`echo "Hello & World"`
+</example>
+
+## Critical Rules
+  - NEVER include raw newline characters in commands
+  - ALWAYS use && for command concatenation when sequential execution is needed
+  - ALWAYS use ; for command separation when order doesn't matter
+  - USE \ for line continuation in long commands (no spaces after \)
+  - ESCAPE special characters properly (& > | etc.)
+  - QUOTE variables and paths containing spaces
+  - VERIFY command syntax before execution
+  - TEST commands with simple inputs before complex operations 
