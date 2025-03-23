@@ -26,6 +26,15 @@ alwaysApply: true
 1. Create feature branch
 2. Update issue status
 3. Add implementation plan
+   ```bash
+   cat > .temp_issue_xxx_plan.md << 'EOL'
+   # Implementation Plan Template
+   [Paste formatted markdown content here]
+   EOL
+   
+   gh issue comment xxx "$(cat .temp_issue_xxx_plan.md)"
+   rm .temp_issue_xxx_plan.md
+   ```
 
 ### "issue done #xxx" (STRICT ORDER)
 1. Create implementation summary FIRST:
