@@ -48,7 +48,7 @@ export default function TestDB() {
         setInitializationStatus(prev => ({ ...prev, categories: true }));
 
         // Verify categories were added
-        if (categoryIds.some(id => !id)) {
+        if (categoryIds.some((id: number | null) => !id)) {
           throw new Error('Failed to add some categories');
         }
 
@@ -57,25 +57,25 @@ export default function TestDB() {
           addAccount({
             amount: 5000,
             type: 'income',
-            categoryId: categoryIds[0], // Salary
+            categoryId: categoryIds[0] as number,
             description: 'Monthly salary'
           }),
           addAccount({
             amount: 1000,
             type: 'income',
-            categoryId: categoryIds[1], // Investment
+            categoryId: categoryIds[1] as number,
             description: 'Stock dividends'
           }),
           addAccount({
             amount: -300,
             type: 'expense',
-            categoryId: categoryIds[2], // Food
+            categoryId: categoryIds[2] as number,
             description: 'Grocery shopping'
           }),
           addAccount({
             amount: -50,
             type: 'expense',
-            categoryId: categoryIds[3], // Transport
+            categoryId: categoryIds[3] as number,
             description: 'Bus fare'
           })
         ];
@@ -85,7 +85,7 @@ export default function TestDB() {
         setInitializationStatus(prev => ({ ...prev, accounts: true }));
 
         // Verify accounts were added
-        if (accountIds.some(id => !id)) {
+        if (accountIds.some((id: number | null) => !id)) {
           throw new Error('Failed to add some accounts');
         }
 
@@ -148,7 +148,7 @@ export default function TestDB() {
           Categories ({categories.length})
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {categories.map(category => (
+          {categories.map((category: Category) => (
             <div
               key={category.id}
               className="p-4 border rounded-lg shadow-sm"
@@ -170,8 +170,8 @@ export default function TestDB() {
           Accounts ({accounts.length})
         </h2>
         <div className="space-y-4">
-          {accounts.map(account => {
-            const category = categories.find(c => c.id === account.categoryId);
+          {accounts.map((account: Account) => {
+            const category = categories.find((c: Category) => c.id === account.categoryId);
             return (
               <div
                 key={account.id}

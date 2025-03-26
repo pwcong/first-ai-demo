@@ -32,8 +32,10 @@ export const budgetValidator = z.object({
   categoryId: z.number().positive(),
   periodStart: z.date(),
   periodEnd: z.date().superRefine((date, ctx) => {
-    const data = ctx.parent as { periodStart?: Date };
-    if (data.periodStart && date <= data.periodStart) {
+    const parent = ctx.path.length > 0 
+      ? ctx.path.slice(0, -1).reduce((obj: any, key: string | number) => obj[key], ctx) 
+      : null;
+    if (parent?.periodStart && date <= parent.periodStart) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'End date must be after start date',
