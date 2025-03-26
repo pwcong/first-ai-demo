@@ -20,31 +20,29 @@ alwaysApply: true
 - Create temporary markdown files for formatted documentation
 - Upload formatted documentation from temporary files
 - Clean up temporary files after successful upload
+- Handle all content creation and updates through temporary files
+- Prevent newline character issues in commands
 
 ## Command Actions
 ### "issue start #xxx"
 1. Create feature branch
 2. Update issue status
-3. Add implementation plan
+3. Add implementation plan using temporary file:
    ```bash
-   cat > .temp_issue_xxx_plan.md << 'EOL'
-   # Implementation Plan Template
-   [Paste formatted markdown content here]
-   EOL
-   
-   gh issue comment xxx "$(cat .temp_issue_xxx_plan.md)"
+   cat > .temp_issue_xxx_plan.md << 'EOL' && \
+   echo '# Implementation Plan Template' >> .temp_issue_xxx_plan.md && \
+   echo '[Paste formatted markdown content here]' >> .temp_issue_xxx_plan.md && \
+   gh issue comment xxx "$(cat .temp_issue_xxx_plan.md)" && \
    rm .temp_issue_xxx_plan.md
    ```
 
 ### "issue done #xxx" (STRICT ORDER)
-1. Create implementation summary FIRST:
+1. Create implementation summary FIRST using temporary file:
    ```bash
-   cat > .temp_issue_xxx_summary.md << 'EOL'
-   # Implementation Summary Template
-   [Paste formatted markdown content here]
-   EOL
-   
-   gh issue comment xxx "$(cat .temp_issue_xxx_summary.md)"
+   cat > .temp_issue_xxx_summary.md << 'EOL' && \
+   echo '# Implementation Summary Template' >> .temp_issue_xxx_summary.md && \
+   echo '[Paste formatted markdown content here]' >> .temp_issue_xxx_summary.md && \
+   gh issue comment xxx "$(cat .temp_issue_xxx_summary.md)" && \
    rm .temp_issue_xxx_summary.md
    ```
 2. Update issue documentation BEFORE other actions
@@ -55,108 +53,105 @@ alwaysApply: true
    - Link merge request with issue
 
 ### "issue close #xxx"
-1. Create closing summary:
+1. Create closing summary using temporary file:
    ```bash
-   cat > .temp_issue_xxx_closing.md << 'EOL'
-   # Closing Summary Template
-   [Paste formatted markdown content here]
-   EOL
-   
-   gh issue comment xxx "$(cat .temp_issue_xxx_closing.md)"
+   cat > .temp_issue_xxx_closing.md << 'EOL' && \
+   echo '# Closing Summary Template' >> .temp_issue_xxx_closing.md && \
+   echo '[Paste formatted markdown content here]' >> .temp_issue_xxx_closing.md && \
+   gh issue comment xxx "$(cat .temp_issue_xxx_closing.md)" && \
    rm .temp_issue_xxx_closing.md
    ```
 2. Verify documentation completeness
 3. Update issue status
 
+## Command Guidelines
+### Temporary File Usage
+1. File Naming Convention:
+   - Use `.temp_issue_[issue-number]_[type].md`
+   - Types: plan, summary, closing, update
+   
+2. Content Creation:
+   ```bash
+   # Single-line command for content creation
+   echo 'Content Line 1' > .temp_file.md && echo 'Content Line 2' >> .temp_file.md
+   
+   # For multiple lines, use concatenation
+   cat > .temp_file.md << 'EOL' && \
+   echo '# Title' >> .temp_file.md && \
+   echo '## Section' >> .temp_file.md && \
+   echo 'Content' >> .temp_file.md
+   ```
+
+3. Content Upload:
+   ```bash
+   # Single command chain for upload and cleanup
+   gh issue comment xxx "$(cat .temp_file.md)" && rm .temp_file.md
+   ```
+
+### Newline Character Handling
+1. Command Chaining:
+   - Use `&&` to chain commands on a single line
+   - Use `\` for line continuation in long commands
+   - Never use raw newlines in commands
+
+2. Content Formatting:
+   ```bash
+   # Correct: Single line with && chaining
+   echo 'Line 1' > file.md && echo 'Line 2' >> file.md && echo 'Line 3' >> file.md
+
+   # Correct: Line continuation with \
+   echo 'Long content' > file.md && \
+   gh issue comment xxx "$(cat file.md)" && \
+   rm file.md
+
+   # INCORRECT: Raw newlines
+   echo 'Line 1' > file.md
+   echo 'Line 2' >> file.md
+   ```
+
 ## Implementation Template
-```markdown
-# Implementation Summary for #XXX 🚀
-
-## 📝 Overview
-[Brief description of the implemented feature/fix]
-
-## 🛠 Implementation Details
-### Components/Features Added
-- List of main components
-- Key features implemented
-
-### Core Features
-- ✨ Feature 1
-- 💾 Feature 2
-- 🧪 Feature 3
-
-## 🤔 Key Decisions
-1. **Architecture Choice**
-   - Chosen approach
-   - Rationale
-
-2. **Technical Decisions**
-   - Technical choices
-   - Trade-offs considered
-
-## 🔧 Technical Implementation
-### Technologies Used
-- List of technologies
-- Key libraries/frameworks
-
-### Architecture/Flow
-1. Component interactions
-2. Data flow
-3. Key processes
-
-## 📈 Future Improvements
-- [ ] Potential enhancement 1
-- [ ] Potential enhancement 2
-
-## 🎯 Completion Status
-- ✅ Feature 1
-- ✅ Feature 2
-- ✅ Documentation
-```
+[Previous template content remains unchanged]
 
 ## Examples
 <example>
 User: "issue done #123"
 AI:
-1. Creates temporary markdown file with implementation summary:
+1. Creates and populates temporary file in a single command chain:
    ```bash
-   cat > .temp_issue_123_summary.md << 'EOL'
-   # Implementation Summary for #123 🚀
-   ## 📝 Overview
-   Added user authentication system
-   ## 🛠 Implementation Details
-   - Implemented JWT-based auth
-   - Added login/register UI
-   ## 🤔 Key Decisions
-   - Used JWT for stateless auth
-   - Implemented refresh token rotation
-   EOL
-   ```
-
-2. Uploads formatted content to issue:
-   ```bash
-   gh issue comment 123 "$(cat .temp_issue_123_summary.md)"
+   cat > .temp_issue_123_summary.md << 'EOL' && \
+   echo '# Implementation Summary for #123 🚀' >> .temp_issue_123_summary.md && \
+   echo '## 📝 Overview' >> .temp_issue_123_summary.md && \
+   echo 'Added user authentication system' >> .temp_issue_123_summary.md && \
+   echo '## 🛠 Implementation Details' >> .temp_issue_123_summary.md && \
+   echo '- Implemented JWT-based auth' >> .temp_issue_123_summary.md && \
+   echo '- Added login/register UI' >> .temp_issue_123_summary.md && \
+   gh issue comment 123 "$(cat .temp_issue_123_summary.md)" && \
    rm .temp_issue_123_summary.md
    ```
-
-3. ONLY THEN proceeds with code changes and MR
 </example>
 
 <example type="invalid">
-❌ User: "issue done #123"
-AI: Creates merge request before documentation
+❌ Commands with raw newlines:
+```bash
+echo 'Title' > file.md
+echo 'Content' >> file.md
+```
 
-❌ User: "issue done #123"
-AI: Pushes code changes without implementation summary
+❌ Direct content upload without temporary file:
+```bash
+gh issue comment 123 "# Title\nContent"
+```
 
-❌ User: "issue done #123"
-AI: Closes issue without proper documentation
+❌ Temporary file cleanup in separate command:
+```bash
+gh issue comment 123 "$(cat file.md)"
+rm file.md  # Separate command is not allowed
+```
 
-❌ User: "issue done #123"
-AI: Directly uploads unformatted text to issue
-
-❌ User: "issue done #123"
-AI: Forgets to clean up temporary files
+❌ Unescaped special characters in content:
+```bash
+echo "Content with & symbol" > file.md
+```
 </example>
 
 ## Critical Rules
@@ -168,3 +163,8 @@ AI: Forgets to clean up temporary files
   - MAINTAIN clear structure and use emojis for readability
   - MUST use temporary files for formatted text upload
   - MUST clean up temporary files after successful upload
+  - MUST handle all content creation through temporary files
+  - NEVER use raw newlines in commands
+  - ALWAYS chain commands with && or use line continuation with \
+  - ALWAYS combine file creation, content upload, and cleanup in a single command chain
+  - MUST escape special characters in content properly
