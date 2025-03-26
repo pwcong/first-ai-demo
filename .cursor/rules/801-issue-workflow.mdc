@@ -36,22 +36,36 @@ printf '# Technical Update\n\n```typescript\nconst example = true;\n```' | gh is
 ```
 
 ### "issue start #xxx"
-```bash
-# Add implementation plan
-printf '# Implementation Plan 📋\n\n## Overview\n[Plan details]\n\n## Steps\n1. Step one\n2. Step two' | gh issue comment xxx -F -
-```
+1. Create feature branch
+2. Update issue status
+3. Add implementation plan
+  ```bash
+  # Add implementation plan
+  printf '# Implementation Plan 📋\n\n## Overview\n[Plan details]\n\n## Steps\n1. Step one\n2. Step two' | gh issue comment xxx -F -
+  ```
 
 ### "issue done #xxx" (STRICT ORDER)
-```bash
-# Add implementation summary
-printf '# Implementation Summary ✅\n\n## Changes Made\n[Changes details]\n\n## Testing\n- Test results' | gh issue comment xxx -F -
-```
+1. Create implementation summary FIRST:
+  ```bash
+  # Add implementation summary
+  printf '# Implementation Summary ✅\n\n## Changes Made\n[Changes details]\n\n## Testing\n- Test results' | gh issue comment xxx -F -
+  ```
+2. Update issue documentation BEFORE other actions
+3. ONLY THEN:
+   - Commit final changes
+   - Push changes
+   - Create merge request
+   - Link merge request with issue
+
 
 ### "issue close #xxx"
-```bash
-# Add closing summary
-printf '# Closing Summary 🏁\n\n## Overview\n[Summary details]\n\n## Verification\n- Verified items' | gh issue comment xxx -F -
-```
+1. Create closing summary:
+  ```bash
+  # Add closing summary
+  printf '# Closing Summary 🏁\n\n## Overview\n[Summary details]\n\n## Verification\n- Verified items' | gh issue comment xxx -F -
+  ```
+2. Verify documentation completeness
+3. Update issue status
 
 ## Examples
 <example>
