@@ -19,6 +19,24 @@ alwaysApply: true
 - Use direct GitHub CLI commands for issue management
 
 ## Command Actions
+
+### Best Practice for Adding Formatted Comments
+To ensure proper formatting of issue comments with Markdown and emojis:
+1. Create a temporary markdown file with the comment content:
+   ```bash
+   echo 'Your formatted comment content' > comment.md
+   ```
+2. Add the comment using gh CLI with -F flag:
+   ```bash
+   gh issue comment ISSUE_NUMBER -F comment.md
+   ```
+3. Clean up the temporary file:
+   ```bash
+   rm comment.md
+   ```
+
+This method preserves all Markdown formatting, emojis, and proper line breaks.
+
 ### "issue start #xxx"
 1. Create feature branch
 2. Update issue status
@@ -38,48 +56,57 @@ alwaysApply: true
 ### "issue done #xxx" (STRICT ORDER)
 1. Create implementation summary FIRST:
    ```bash
-   gh issue comment xxx --body "# Implementation Summary for #xxx 🚀
+   # Create temporary markdown file
+   cat > implementation_summary.md << 'EOL'
+# Implementation Summary for #xxx 🚀
+
+## 📝 Overview
+[Brief description of the implemented feature/fix]
+
+## 🛠 Implementation Details
+### Components/Features Added
+- List of main components
+- Key features implemented
+
+### Core Features
+- ✨ Feature 1
+- 💾 Feature 2
+- 🧪 Feature 3
+
+## 🤔 Key Decisions
+1. **Architecture Choice**
+   - Chosen approach
+   - Rationale
+
+2. **Technical Decisions**
+   - Technical choices
+   - Trade-offs considered
+
+## 🔧 Technical Implementation
+### Technologies Used
+- List of technologies
+- Key libraries/frameworks
+
+### Architecture/Flow
+1. Component interactions
+2. Data flow
+3. Key processes
+
+## 📈 Future Improvements
+- [ ] Potential enhancement 1
+- [ ] Potential enhancement 2
+
+## 🎯 Completion Status
+- ✅ Feature 1
+- ✅ Feature 2
+- ✅ Documentation
+EOL
+
+   # Add comment using the file
+   gh issue comment xxx -F implementation_summary.md
    
-   ## 📝 Overview
-   [Brief description of the implemented feature/fix]
-   
-   ## 🛠 Implementation Details
-   ### Components/Features Added
-   - List of main components
-   - Key features implemented
-   
-   ### Core Features
-   - ✨ Feature 1
-   - 💾 Feature 2
-   - 🧪 Feature 3
-   
-   ## 🤔 Key Decisions
-   1. **Architecture Choice**
-      - Chosen approach
-      - Rationale
-   
-   2. **Technical Decisions**
-      - Technical choices
-      - Trade-offs considered
-   
-   ## 🔧 Technical Implementation
-   ### Technologies Used
-   - List of technologies
-   - Key libraries/frameworks
-   
-   ### Architecture/Flow
-   1. Component interactions
-   2. Data flow
-   3. Key processes
-   
-   ## 📈 Future Improvements
-   - [ ] Potential enhancement 1
-   - [ ] Potential enhancement 2
-   
-   ## 🎯 Completion Status
-   - ✅ Feature 1
-   - ✅ Feature 2
-   - ✅ Documentation"
+   # Clean up
+   rm implementation_summary.md
    ```
 2. Update issue documentation BEFORE other actions
 3. ONLY THEN:
@@ -91,18 +118,27 @@ alwaysApply: true
 ### "issue close #xxx"
 1. Create closing summary:
    ```bash
-   gh issue comment xxx --body "# Closing Summary for #xxx 🏁
+   # Create temporary markdown file
+   cat > closing_summary.md << 'EOL'
+# Closing Summary for #xxx 🏁
+
+## 📝 Final Status
+[Brief description of the final state]
+
+## ✅ Completed Items
+- Item 1
+- Item 2
+
+## 📋 Documentation Status
+- All documentation updated
+- No pending items
+EOL
+
+   # Add comment using the file
+   gh issue comment xxx -F closing_summary.md
    
-   ## 📝 Final Status
-   [Brief description of the final state]
-   
-   ## ✅ Completed Items
-   - Item 1
-   - Item 2
-   
-   ## 📋 Documentation Status
-   - All documentation updated
-   - No pending items"
+   # Clean up
+   rm closing_summary.md
    ```
 2. Verify documentation completeness
 3. Close the issue:
