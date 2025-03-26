@@ -18,7 +18,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@first-ai-demo/shared": "workspace:*",
     "idb": "^8.0.0",
-    "@first-ai-demo/shared": "workspace:*"
+    "zod": "^3.24.2"
   }
 }
